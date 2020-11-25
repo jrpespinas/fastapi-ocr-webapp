@@ -1,4 +1,4 @@
-OCR Webapp Using FastAPI
+FastAPI
 ===
 
 
