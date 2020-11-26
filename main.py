@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from model import nlp
 
 app = FastAPI()
 
@@ -9,5 +10,9 @@ def read_main():
 
 
 @app.get('/article/{article_id}')
-def analyze_article(article_id: int):
-    return {"article_id": article_id, "previous_id": article_id - 1}
+def analyze_article(article_id: int, q: str = None):
+    count = 0
+    if q:
+        doc = nlp(q)
+        count = len(doc.ents)
+    return {"article_id": article_id, "q": q, "count": count}
