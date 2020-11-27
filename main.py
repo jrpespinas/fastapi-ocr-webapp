@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import FastAPI
 from model import nlp
 from pydantic import BaseModel
@@ -12,8 +14,9 @@ def read_main():
 
 class Article(BaseModel):
     content: str
+    comments: List[str] = []
 
 
 @app.post('/article/')
 def analyze_article(article: Article):
-    return article
+    return {"message": article.content, "comments": article.comments}
