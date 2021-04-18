@@ -1,6 +1,8 @@
 FastAPI
 ===
 
+## Overview
+This repository is intended for learning purposes--discover the mechanism of FastAPI.
 
 ```
 MIT License
