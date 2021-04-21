@@ -23,5 +23,10 @@ def show(id: int):
 
 
 @app.get("/blog/{id}/comments")
-def comments(id: int):
+def comments(id: int, limit=10):
     return {"data": {"1", "2"}}
+
+
+@app.post("/blog")
+def create_blog():
+    return {"data": "Blog created!"}
