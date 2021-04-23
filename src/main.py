@@ -25,10 +25,18 @@ def create(request: schemas.Blog, db: Session = Depends(get_db)):
     return new_blog
 
 
+@app.put("/blog/{id}", status_code=status.HTTP_202_ACCEPTED)
+def update(id: int, request: schemas.Blog, db: Session = Depends(get_db)):
+    db.query(models.Blog).filter(models.Blog.id == id).update(
+        {"title": request.title, "body": request.body}
+    )
+    db.commit()
+    return {"message": "Updated"}
+
+
 @app.delete("/blog/{id}")
 def destroy(id: int, db: Session = Depends(get_db)):
-    db.query(models.Blog).filter(models.Blog.id == id)\
-        .delete(synchronize_session=False)
+    db.query(models.Blog).filter(models.Blog.id == id).delete(synchronize_session=False)
     db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
@@ -39,7 +47,7 @@ def get_blogs(db: Session = Depends(get_db)):
     return blogs
 
 
-@app.get("/blog/{id}", status_code=200)
+@app.get("/blog/{id}", status_code=status.HTTP_200_OK)
 def get_blog_by_id(id: int, response: Response, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
