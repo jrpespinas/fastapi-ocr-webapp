@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, status, Response, HTTPException
 from . import schemas, models
 from .database import engine, SessionLocal
 from sqlalchemy.orm import Session
+from typing import List
 
 app = FastAPI()
 
@@ -57,13 +58,13 @@ def destroy(id: int, db: Session = Depends(get_db)):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@app.get("/blog")
+@app.get("/blog", response_model=List[schemas.ShowBlog])
 def get_blogs(db: Session = Depends(get_db)):
     blogs = db.query(models.Blog).all()
     return blogs
 
 
-@app.get("/blog/{id}", status_code=status.HTTP_200_OK)
+@app.get("/blog/{id}", status_code=status.HTTP_200_OK, response_model=schemas.ShowBlog)
 def get_blog_by_id(id: int, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
 
