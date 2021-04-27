@@ -1,5 +1,6 @@
 from typing import List
-from . import schemas, models, security
+from . import schemas, models
+from .security import Hashing
 from .database import engine, SessionLocal
 from sqlalchemy.orm import Session
 from fastapi import FastAPI, Depends, status, Response, HTTPException
@@ -76,12 +77,12 @@ def get_blog_by_id(id: int, db: Session = Depends(get_db)):
     return blog
 
 
-@app.post("/user")
+@app.post("/user", response_model=schemas.ShowUser)
 def create_user(request: schemas.User, db: Session = Depends(get_db)):
     new_user = models.User(
         name=request.name,
         email=request.email,
-        password=security.Hashing.get_hash_password(request.password),
+        password=Hashing.get_hash_password(request.password),
     )
     db.add(new_user)
     db.commit()
