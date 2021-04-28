@@ -1,3 +1,6 @@
+"""
+This program is composed of the endpoints for the `Users` module.
+"""
 from fastapi import APIRouter, Depends, Response, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
