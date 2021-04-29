@@ -4,10 +4,10 @@ from typing import List
 from .. import schemas, database, models
 
 
-router = APIRouter()
+router = APIRouter(prefix="/blog", tags=["Blogs"])
 
 
-@router.post("/blog", tags=["blogs"], status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 def create(request: schemas.Blog, db: Session = Depends(database.get_db)):
     new_blog = models.Blog(title=request.title, body=request.body, user_id=1)
     db.add(new_blog)
@@ -16,18 +16,13 @@ def create(request: schemas.Blog, db: Session = Depends(database.get_db)):
     return new_blog
 
 
-@router.get("/blog", tags=["blogs"], response_model=List[schemas.ShowBlog])
+@router.get("/", response_model=List[schemas.ShowBlog])
 def get_blogs(db: Session = Depends(database.get_db)):
     blogs = db.query(models.Blog).all()
     return blogs
 
 
-@router.get(
-    "/blog/{id}",
-    tags=["blogs"],
-    status_code=status.HTTP_200_OK,
-    response_model=schemas.ShowBlog,
-)
+@router.get("/{id}", status_code=status.HTTP_200_OK, response_model=schemas.ShowBlog)
 def get_blog_by_id(id: int, db: Session = Depends(database.get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
 
@@ -39,9 +34,8 @@ def get_blog_by_id(id: int, db: Session = Depends(database.get_db)):
     return blog
 
 
-@router.put("/blog/{id}", tags=["blogs"], status_code=status.HTTP_202_ACCEPTED)
-def update(id: int, request: schemas.Blog, db: Session = Depends(
-        database.get_db)):
+@router.put("/{id}", status_code=status.HTTP_202_ACCEPTED)
+def update(id: int, request: schemas.Blog, db: Session = Depends(database.get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
 
     if not blog.first():
@@ -56,7 +50,7 @@ def update(id: int, request: schemas.Blog, db: Session = Depends(
     return {"message": "Updated"}
 
 
-@router.delete("/blog/{id}", tags=["blogs"])
+@router.delete("/{id}")
 def destroy(id: int, db: Session = Depends(database.get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
 
