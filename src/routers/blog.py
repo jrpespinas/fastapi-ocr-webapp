@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, Response, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 from .. import schemas, database, models
+from ..repository import blog
 
 
 router = APIRouter(prefix="/blog", tags=["Blogs"])
@@ -18,20 +19,12 @@ def create(request: schemas.Blog, db: Session = Depends(database.get_db)):
 
 @router.get("/", response_model=List[schemas.ShowBlog])
 def get_blogs(db: Session = Depends(database.get_db)):
-    blogs = db.query(models.Blog).all()
-    return blogs
+    return blog.get_all(db)
 
 
 @router.get("/{id}", status_code=status.HTTP_200_OK, response_model=schemas.ShowBlog)
 def get_blog_by_id(id: int, db: Session = Depends(database.get_db)):
-    blog = db.query(models.Blog).filter(models.Blog.id == id).first()
-
-    if not blog:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Blog with the id {id} is not available!",
-        )
-    return blog
+    return blog.get_by_id(id, db)
 
 
 @router.put("/{id}", status_code=status.HTTP_202_ACCEPTED)
