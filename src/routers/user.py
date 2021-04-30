@@ -1,11 +1,9 @@
 """
 This program is composed of the endpoints for the `Users` module.
 """
-from fastapi import APIRouter, Depends, Response, HTTPException, status
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from typing import List
-from .. import schemas, database, models
-from ..security import Hashing
+from .. import schemas, database
 from ..repository import user
 
 router = APIRouter(prefix="/user", tags=["Users"])
