@@ -44,7 +44,7 @@ def delete_blog_by_id(id: int, db: Session):
     db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
-def create_blog(request, db: Session):
+def create_blog(request: schemas.Blog, db: Session):
     new_blog = models.Blog(title=request.title, body=request.body, user_id=1)
     db.add(new_blog)
     db.commit()
