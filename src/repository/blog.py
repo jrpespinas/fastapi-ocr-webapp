@@ -2,9 +2,11 @@ from fastapi import HTTPException, Response, status
 from sqlalchemy.orm import Session
 from .. import models, schemas
 
+
 def get_all(db: Session):
     blogs = db.query(models.Blog).all()
     return blogs
+
 
 def get_blog_by_id(id: int, db: Session):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
@@ -15,6 +17,7 @@ def get_blog_by_id(id: int, db: Session):
             detail=f"Blog with the id {id} is not available!",
         )
     return blog
+
 
 def update_blog_by_id(id: int, request, db: Session):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
@@ -30,6 +33,7 @@ def update_blog_by_id(id: int, request, db: Session):
     db.commit()
     return {"message": "Updated"}
 
+
 def delete_blog_by_id(id: int, db: Session):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
 
@@ -43,6 +47,7 @@ def delete_blog_by_id(id: int, db: Session):
 
     db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
 
 def create_blog(request: schemas.Blog, db: Session):
     new_blog = models.Blog(title=request.title, body=request.body, user_id=1)
