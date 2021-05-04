@@ -13,9 +13,9 @@ def login(request: schemas.Login, db: Session):
             status_code=status.HTTP_404_NOT_FOUND, detail=f"Invalid Credentials!"
         )
 
-    # if not Hashing.verify_password(user.password, request.password):
-    #     raise HTTPException(
-    #         status_code=status.HTTP_404_NOT_FOUND, detail=f"Incorrect Password!"
-    #     )
+    if not Hashing.verify_password(user.password, request.password):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Incorrect Password!"
+        )
 
     return user
