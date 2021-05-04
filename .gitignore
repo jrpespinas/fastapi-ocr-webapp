@@ -3,4 +3,4 @@ Pipfile
 Pipfile.lock
 .vim
 blog.db
-
+settings.json
