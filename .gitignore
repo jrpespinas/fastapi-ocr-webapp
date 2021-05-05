@@ -1,6 +1,7 @@
 __pycache__
-Pipfile
-Pipfile.lock
 .vim
 blog.db
 settings.json
+Pipfile
+Pipfile.lock
+
