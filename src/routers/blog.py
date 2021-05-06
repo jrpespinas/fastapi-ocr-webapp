@@ -23,7 +23,9 @@ def get_blog_by_id(id: int, db: Session = Depends(database.get_db)):
     return blog.get_blog_by_id(id, db)
 
 
-@router.put("/{id}", status_code=status.HTTP_202_ACCEPTED)
+@router.put(
+    "/{id}", status_code=status.HTTP_202_ACCEPTED, response_model=schemas.ShowSingleBlog
+)
 def update(id: int, request: schemas.Blog, db: Session = Depends(database.get_db)):
     return blog.update_blog_by_id(id, request, db)
 

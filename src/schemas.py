@@ -35,6 +35,15 @@ class ShowBlog(BaseModel):
     class Config:
         orm_mode = True
 
+
 class Login(BaseModel):
     username: str
     password: str
+
+
+class ShowSingleBlog(BaseModel):
+    title: str
+    body: str
+
+    class Config:
+        orm_mode = True
