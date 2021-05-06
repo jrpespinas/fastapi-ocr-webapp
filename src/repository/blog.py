@@ -19,7 +19,7 @@ def get_blog_by_id(id: int, db: Session):
     return blog
 
 
-def update_blog_by_id(id: int, request, db: Session):
+def update_blog_by_id(id: int, request: schemas.Blog, db: Session):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
 
     if not blog.first():
@@ -31,7 +31,7 @@ def update_blog_by_id(id: int, request, db: Session):
         blog.update({"title": request.title, "body": request.body})
 
     db.commit()
-    return {"message": "Updated"}
+    return {"message": "updated"}
 
 
 def delete_blog_by_id(id: int, db: Session):
