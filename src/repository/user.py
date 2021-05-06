@@ -34,6 +34,27 @@ def get_user_by_id(id: int, db: Session):
     return user
 
 
+def update_user_by_id(id: int, request: schemas.User, db: Session):
+    user = db.query(models.User).filter(models.User.id == id)
+
+    if not user.first():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with the id {id} is not available!",
+        )
+    else:
+        user.update(
+            {
+                "name": request.name,
+                "email": request.email,
+                "password": Hashing.get_hash_password(request.password),
+            }
+        )
+
+    db.commit()
+    return {"message": "updated"}
+
+
 def delete_user_by_id(id: int, db: Session):
     user = db.query(models.User).filter(models.User.id == id)
 

@@ -1,7 +1,7 @@
 """
 This program is composed of the endpoints for the `Users` module.
 """
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from typing import List
 from .. import schemas, database
@@ -28,3 +28,8 @@ def get_user(id: int, db: Session = Depends(database.get_db)):
 @router.delete("/{id}")
 def delete_user(id: int, db: Session = Depends(database.get_db)):
     return user.delete_user_by_id(id, db)
+
+
+@router.put("/{id}", status_code=status.HTTP_202_ACCEPTED)
+def update_user(id: int, request: schemas.User, db: Session = Depends(database.get_db)):
+    return user.update_user_by_id(id, request, db)
