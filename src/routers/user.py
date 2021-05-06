@@ -19,6 +19,12 @@ def create_user(request: schemas.User, db: Session = Depends(database.get_db)):
 def get_all_users(db: Session = Depends(database.get_db)):
     return user.get_all(db)
 
+
 @router.get("/{id}", response_model=schemas.ShowUser)
 def get_user(id: int, db: Session = Depends(database.get_db)):
     return user.get_user_by_id(id, db)
+
+
+@router.delete("/{id}")
+def delete_user(id: int, db: Session = Depends(database.get_db)):
+    return user.delete_user_by_id(id, db)

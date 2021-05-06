@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session
-from fastapi import HTTPException, status
+from fastapi import HTTPException, Response, status
 
 from .. import models, schemas
 from ..security import Hashing
+
 
 def create_user(request: schemas.User, db: Session):
     new_user = models.User(
@@ -15,9 +16,11 @@ def create_user(request: schemas.User, db: Session):
     db.refresh(new_user)
     return new_user
 
+
 def get_all(db: Session):
     users = db.query(models.User).all()
     return users
+
 
 def get_user_by_id(id: int, db: Session):
     user = db.query(models.User).filter(models.User.id == id).first()
@@ -29,3 +32,18 @@ def get_user_by_id(id: int, db: Session):
         )
 
     return user
+
+
+def delete_user_by_id(id: int, db: Session):
+    user = db.query(models.User).filter(models.User.id == id)
+
+    if not user.first():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with the id {id} does not exist!",
+        )
+    else:
+        user.delete(synchronize_session=False)
+
+    db.commit()
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
