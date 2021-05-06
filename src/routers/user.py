@@ -30,6 +30,8 @@ def delete_user(id: int, db: Session = Depends(database.get_db)):
     return user.delete_user_by_id(id, db)
 
 
-@router.put("/{id}", status_code=status.HTTP_202_ACCEPTED)
+@router.put(
+    "/{id}", status_code=status.HTTP_202_ACCEPTED, response_model=schemas.ShowSingleUser
+)
 def update_user(id: int, request: schemas.User, db: Session = Depends(database.get_db)):
     return user.update_user_by_id(id, request, db)

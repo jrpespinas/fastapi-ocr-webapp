@@ -52,7 +52,8 @@ def update_user_by_id(id: int, request: schemas.User, db: Session):
         )
 
     db.commit()
-    return {"message": "updated"}
+    updated_user = db.query(models.User).filter(models.User.id == id).first()
+    return updated_user
 
 
 def delete_user_by_id(id: int, db: Session):
