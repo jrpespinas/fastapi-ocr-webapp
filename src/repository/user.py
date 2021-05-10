@@ -27,8 +27,8 @@ def get_user_by_id(id: int, db: Session):
 
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, 
-            detail=f"User with the id {id} is not available!"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with the id {id} is not available!",
         )
 
     return user
@@ -40,7 +40,7 @@ def update_user_by_id(id: int, request: schemas.User, db: Session):
     if not user.first():
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with the id {id} is not available!"
+            detail=f"User with the id {id} is not available!",
         )
     else:
         user.update(
