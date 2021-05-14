@@ -4,9 +4,8 @@ This program is composed of the endpoints for the `Users` module.
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from typing import List
-from .. import schemas, database
+from .. import schemas, database, oauth2
 from ..repository import user
-from . import oauth2
 
 router = APIRouter(prefix="/user", tags=["Users"])
 

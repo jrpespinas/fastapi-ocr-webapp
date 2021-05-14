@@ -3,9 +3,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 
-from .. import schemas, models
+from .. import schemas, models, token
 from ..security import Hashing
-from . import token
 
 
 def login(request, db: Session):
