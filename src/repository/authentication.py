@@ -1,4 +1,5 @@
 from fastapi import HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 
@@ -7,7 +8,7 @@ from ..security import Hashing
 from . import token
 
 
-def login(request: schemas.Login, db: Session):
+def login(request, db: Session):
     user = db.query(models.User).filter(models.User.email == request.username).first()
 
     if not user:
