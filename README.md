@@ -4,6 +4,15 @@ FastAPI
 ## Overview
 This repository is intended for learning purposes--discover the mechanism of FastAPI.
 
+## Usage
+```
+$ git clone https://github.com/jrpespinas/fastapi-webapp.git
+$ cd fastapi-webapp
+$ pip3 install -r requirements.txt
+$ cd app
+$ uvicorn main:app --reload
+```
+
 ## License
 ```
 MIT License
